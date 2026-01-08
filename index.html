@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>桃花岛四周年记分牌</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root { --bg1:#fff5f8; --bg2:#fde2f3; --primary:#d946ef; --accent:#7c3aed; --text:#1f2937; --muted:#6b7280; --card:#ffffff; }
+      * { box-sizing:border-box; }
+      body { margin:0; min-height:100vh; font-family:'Noto Sans SC', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; color:var(--text);
+        background: radial-gradient(1200px 800px at 85% -100px, var(--bg2), transparent),
+                    radial-gradient(1000px 600px at -10% 120%, #e3f2fd, transparent),
+                    linear-gradient(180deg, var(--bg1), #ffffff);
+      }
+      .wrap { max-width:1000px; margin:0 auto; padding:32px 20px 56px; }
+      .title { display:flex; align-items:center; gap:12px; margin-bottom:22px; }
+      .logo { width:40px; height:40px; border-radius:12px; background: conic-gradient(from 210deg, var(--primary), var(--accent)); box-shadow:0 10px 25px rgba(124,58,237,.25); }
+      h1 { font-size:28px; font-weight:800; letter-spacing:.5px; margin:0; background: linear-gradient(90deg, var(--accent), var(--primary)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+      .subtitle { margin-top:8px; color:var(--muted); font-size:14px; }
+
+      .board { display:grid; grid-template-columns:repeat(2, 1fr); gap:18px; }
+      @media (max-width:860px) { .board { grid-template-columns:1fr; } }
+
+      .card { position:relative; border-radius:18px; background:var(--card); padding:18px; box-shadow:0 10px 30px rgba(17,24,39,.08); overflow:hidden; }
+      .card::before { content:""; position:absolute; inset:-2px; border-radius:20px; background: radial-gradient(600px 300px at 20% -40%, rgba(217,70,239,.18), transparent),
+        radial-gradient(500px 260px at 120% 140%, rgba(124,58,237,.18), transparent);
+        pointer-events:none; }
+
+      .head { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+      .team { display:flex; align-items:center; gap:10px; }
+      .badge { width:14px; height:14px; border-radius:50%; background:linear-gradient(135deg, var(--primary), var(--accent)); box-shadow:0 6px 14px rgba(124,58,237,.28); }
+      .name { font-weight:700; font-size:18px; }
+      .limit { font-size:12px; color:var(--muted); }
+
+      .score { display:flex; align-items:flex-end; justify-content:center; gap:12px; padding:10px 0 18px; }
+      .score .value { font-size:64px; font-weight:800; line-height:1; letter-spacing:1px; background: linear-gradient(90deg, #111827, #6b7280); -webkit-background-clip:text; background-clip:text; color:transparent; }
+      .score .unit { font-size:16px; color:var(--muted); }
+
+      .controls { display:flex; align-items:center; justify-content:center; gap:14px; }
+      .btn { appearance:none; border:none; outline:none; cursor:pointer; height:48px; padding:0 18px; border-radius:12px; font-weight:700; font-size:16px; color:#fff; background:linear-gradient(135deg, var(--accent), var(--primary)); box-shadow:0 10px 20px rgba(124,58,237,.35); transition:.2s transform ease, .2s box-shadow ease; }
+      .btn:hover { transform:translateY(-2px); box-shadow:0 14px 28px rgba(124,58,237,.38); }
+      .btn:active { transform:translateY(0); box-shadow:0 8px 18px rgba(124,58,237,.28); }
+      .btn.secondary { background:linear-gradient(135deg, #64748b, #334155); box-shadow:0 10px 20px rgba(51,65,85,.28); }
+      .hint { margin-top:10px; text-align:center; font-size:12px; color:var(--muted); }
+
+      .footer { margin-top:22px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+      .rule { font-size:13px; color:var(--muted); }
+      .mark { font-size:12px; color:#94a3b8; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="title">
+        <div class="logo"></div>
+        <h1>桃花岛四周年记分牌</h1>
+      </div>
+      <div class="subtitle">为桃花岛一队与二队记录比分</div>
+
+      <div class="board">
+        <section class="card" id="team1">
+          <div class="head">
+            <div class="team">
+              <div class="badge"></div>
+              <div class="name">桃花岛一队</div>
+            </div>
+            <div class="limit">封顶：2026</div>
+          </div>
+          <div class="score">
+            <div class="value" id="score1">0</div>
+            <div class="unit">分</div>
+          </div>
+          <div class="controls">
+            <button class="btn" id="plus1">＋ 加分</button>
+            <button class="btn secondary" id="minus1">－ 减分</button>
+          </div>
+          <div class="hint">低于2020每次±10；达到/超过2020每次±1</div>
+        </section>
+
+        <section class="card" id="team2">
+          <div class="head">
+            <div class="team">
+              <div class="badge"></div>
+              <div class="name">桃花岛二队</div>
+            </div>
+            <div class="limit">封顶：2026</div>
+          </div>
+          <div class="score">
+            <div class="value" id="score2">0</div>
+            <div class="unit">分</div>
+          </div>
+          <div class="controls">
+            <button class="btn" id="plus2">＋ 加分</button>
+            <button class="btn secondary" id="minus2">－ 减分</button>
+          </div>
+          <div class="hint">低于2020每次±10；达到/超过2020每次±1</div>
+        </section>
+      </div>
+
+      <div class="footer">
+        <div class="rule">规则：每次点击加号加10分；达到2020后每次加1分；封顶2026分。减分遵循同样阈值。</div>
+        <div class="mark">© 桃花岛 · 四周年</div>
+      </div>
+    </div>
+
+    <script src="scoreboard.js"></script>
+  </body>
+  </html>
+
